@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GymAppBackend.Core.Repositories;
+using GymAppBackend.Infrastructure.DAL.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -9,6 +11,9 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>();
+
         services.AddSwaggerGen(swagger =>
         {
             swagger.EnableAnnotations();
