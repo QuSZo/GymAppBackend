@@ -1,5 +1,7 @@
-﻿using GymAppBackend.Core.Repositories;
+﻿using GymAppBackend.Core.Abstractions;
+using GymAppBackend.Core.Repositories;
 using GymAppBackend.Infrastructure.DAL.Repositories;
+using GymAppBackend.Infrastructure.Time;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -12,7 +14,9 @@ public static class Extensions
     {
         services.AddControllers();
 
-        services.AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>();
+        services
+            .AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>()
+            .AddSingleton<IClock, Clock>();
 
         services.AddSwaggerGen(swagger =>
         {

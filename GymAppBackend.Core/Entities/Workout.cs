@@ -1,24 +1,33 @@
-﻿namespace GymAppBackend.Core.Entities;
+﻿using GymAppBackend.Core.ValueObjects;
+
+namespace GymAppBackend.Core.Entities;
 
 public class Workout
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public IEnumerable<ExerciseInWorkout> ExercisesInWorkout => _reservation;
+    public Guid Id { get; }
+    public string Name { get; private set; }
+    public Date Date { get; private set; }
+    public IEnumerable<ExerciseInWorkout> ExerciseInWorkouts => _exerciseInWorkouts;
 
-    private readonly HashSet<ExerciseInWorkout> _reservation = new();
+    private List<ExerciseInWorkout> _exerciseInWorkouts = new();
 
-    public Workout(Guid id, DateTime createdAt)
+    private Workout(Guid id, Date date)
     {
-        Id = Guid.NewGuid();
-        CreatedAt = createdAt;
+        Id = id;
+        Name = "Workout " + date;
+        Date = date;
     }
 
-    public static Workout Create(Guid id, DateTime createdAt)
-        => new Workout(id, createdAt);
+    public static Workout Create(Guid id, Date date)
+        => new Workout(id, date);
 
-    internal void AddExerciseInWorkout(ExerciseInWorkout exercisesInWorkout)
+    public void AddExerciseInWorkout(ExerciseInWorkout exercisesInWorkout)
     {
-        _reservation.Add(exercisesInWorkout);
+        _exerciseInWorkouts.Add(exercisesInWorkout);
+    }
+
+    public void UpdateName(string name)
+    {
+        Name = name;
     }
 }
