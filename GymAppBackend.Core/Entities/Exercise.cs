@@ -1,8 +1,9 @@
-﻿namespace GymAppBackend.Core.Entities;
+﻿using GymAppBackend.Core.Abstractions;
 
-public class Exercise
+namespace GymAppBackend.Core.Entities;
+
+public class Exercise : Entity
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public ExerciseCategory ExerciseCategory { get; set; }
 }

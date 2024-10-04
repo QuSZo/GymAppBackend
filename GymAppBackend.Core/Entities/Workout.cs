@@ -1,10 +1,10 @@
-﻿using GymAppBackend.Core.ValueObjects;
+﻿using GymAppBackend.Core.Abstractions;
+using GymAppBackend.Core.ValueObjects;
 
 namespace GymAppBackend.Core.Entities;
 
-public class Workout
+public class Workout : Entity
 {
-    public Guid Id { get; }
     public string Name { get; private set; }
     public Date Date { get; private set; }
     public IEnumerable<ExerciseInWorkout> ExerciseInWorkouts => _exerciseInWorkouts;

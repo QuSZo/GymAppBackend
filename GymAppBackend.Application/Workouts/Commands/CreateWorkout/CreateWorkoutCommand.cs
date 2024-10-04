@@ -2,4 +2,7 @@
 
 namespace GymAppBackend.Application.Workouts.Commands.CreateWorkout;
 
-public record CreateWorkoutCommand(string WorkoutName) : ICommand;
+public sealed record CreateWorkoutCommand() : ICommand
+{
+    internal Guid Id { get; } = Guid.NewGuid();
+}

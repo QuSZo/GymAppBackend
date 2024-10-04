@@ -2,7 +2,6 @@
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
 using GymAppBackend.Core.Repositories;
-using GymAppBackend.Infrastructure.DAL.Repositories;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries.GetWorkouts;
 
@@ -17,7 +16,7 @@ public sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnumer
 
     public async Task<IEnumerable<WorkoutsDto>> HandleAsync(GetWorkoutsQuery query)
     {
-        var workouts = await _repository.GetWorkoutsAsync();
+        var workouts = await _repository.GetAllAsync();
 
         return workouts.Select(x => x.AsDto());
     }
