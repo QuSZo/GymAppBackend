@@ -11,6 +11,11 @@
 
     <ItemGroup>
       <Folder Include="Exceptions\" />
+      <Folder Include="Workouts\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Scrutor" Version="5.0.1" />
     </ItemGroup>
 
 </Project>

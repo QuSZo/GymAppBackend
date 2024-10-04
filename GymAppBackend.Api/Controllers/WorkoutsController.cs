@@ -1,6 +1,6 @@
 ﻿using GymAppBackend.Application.Abstractions;
-using GymAppBackend.Application.Queries.Workouts.DTO;
-using GymAppBackend.Application.Queries.Workouts.GetWorkouts;
+using GymAppBackend.Application.Workouts.Queries.DTO;
+using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymAppBackend.Api.Controllers;

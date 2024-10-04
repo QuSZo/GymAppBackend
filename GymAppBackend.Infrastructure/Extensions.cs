@@ -1,4 +1,5 @@
-﻿using GymAppBackend.Core.Abstractions;
+﻿using GymAppBackend.Application.Abstractions;
+using GymAppBackend.Core.Abstractions;
 using GymAppBackend.Core.Repositories;
 using GymAppBackend.Infrastructure.DAL.Repositories;
 using GymAppBackend.Infrastructure.Time;
@@ -27,6 +28,13 @@ public static class Extensions
                 Version = "v1"
             });
         });
+
+        var infrastructureAssembly = typeof(AppOptions).Assembly;
+
+        services.Scan(s => s.FromAssemblies(infrastructureAssembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
         return services;
     }

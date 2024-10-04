@@ -1,6 +1,4 @@
-﻿using GymAppBackend.Core.ValueObjects;
-
-namespace GymAppBackend.Application.Queries.Workouts.DTO;
+﻿namespace GymAppBackend.Application.Workouts.Queries.DTO;
 
 public class WorkoutsDto
 {
