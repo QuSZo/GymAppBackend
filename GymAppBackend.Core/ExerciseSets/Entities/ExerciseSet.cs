@@ -1,8 +1,8 @@
 ﻿using GymAppBackend.Core.Abstractions;
 
-namespace GymAppBackend.Core.Entities;
+namespace GymAppBackend.Core.ExerciseSets.Entities;
 
-public class ExerciseInWorkoutSet : Entity
+public class ExerciseSet : Entity
 {
     public int SetNumber { get; set; }
     public int Quantity { get; set; }

@@ -1,6 +1,6 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Core.Abstractions;
-using GymAppBackend.Core.Repositories;
+using GymAppBackend.Core.Workouts.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using GymAppBackend.Infrastructure.Time;
 using Microsoft.AspNetCore.Builder;

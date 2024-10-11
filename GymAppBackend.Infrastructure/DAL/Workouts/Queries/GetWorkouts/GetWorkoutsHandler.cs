@@ -1,7 +1,7 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
-using GymAppBackend.Core.Repositories;
+using GymAppBackend.Core.Workouts.Repositories;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries.GetWorkouts;
 

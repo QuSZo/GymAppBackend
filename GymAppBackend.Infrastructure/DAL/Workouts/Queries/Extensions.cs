@@ -1,5 +1,5 @@
 ﻿using GymAppBackend.Application.Workouts.Queries.DTO;
-using GymAppBackend.Core.Entities;
+using GymAppBackend.Core.Workouts.Entities;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries;
 

@@ -1,6 +1,6 @@
-﻿using GymAppBackend.Core.Entities;
+﻿using GymAppBackend.Core.Workouts.Entities;
 
-namespace GymAppBackend.Core.Repositories;
+namespace GymAppBackend.Core.Workouts.Repositories;
 
 public interface IWorkoutRepository
 {

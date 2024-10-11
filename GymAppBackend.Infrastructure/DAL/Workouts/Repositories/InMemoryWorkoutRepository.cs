@@ -1,7 +1,7 @@
 ﻿using GymAppBackend.Core.Abstractions;
-using GymAppBackend.Core.Entities;
-using GymAppBackend.Core.Repositories;
 using GymAppBackend.Core.ValueObjects;
+using GymAppBackend.Core.Workouts.Entities;
+using GymAppBackend.Core.Workouts.Repositories;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 

@@ -1,15 +1,16 @@
 ﻿using GymAppBackend.Core.Abstractions;
+using GymAppBackend.Core.Exercises.Entities;
 using GymAppBackend.Core.ValueObjects;
 
-namespace GymAppBackend.Core.Entities;
+namespace GymAppBackend.Core.Workouts.Entities;
 
 public class Workout : Entity
 {
     public string Name { get; private set; }
     public Date Date { get; private set; }
-    public IEnumerable<ExerciseInWorkout> ExerciseInWorkouts => _exerciseInWorkouts;
+    public IEnumerable<Exercise> Exercises => _exercises;
 
-    private List<ExerciseInWorkout> _exerciseInWorkouts = new();
+    private List<Exercise> _exercises = new();
 
     private Workout(Guid id, Date date)
     {
@@ -21,9 +22,9 @@ public class Workout : Entity
     public static Workout Create(Guid id, Date date)
         => new Workout(id, date);
 
-    public void AddExerciseInWorkout(ExerciseInWorkout exercisesInWorkout)
+    public void AddExerciseInWorkout(Exercise exercises)
     {
-        _exerciseInWorkouts.Add(exercisesInWorkout);
+        _exercises.Add(exercises);
     }
 
     public void UpdateName(string name)
