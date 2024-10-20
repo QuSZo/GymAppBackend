@@ -1,7 +1,12 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Core.Abstractions;
+using GymAppBackend.Core.ExerciseCategories.Repositories;
+using GymAppBackend.Core.ExerciseTypes.Repositories;
 using GymAppBackend.Core.Workouts.Repositories;
+using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
+using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
+using GymAppBackend.Infrastructure.Exceptions;
 using GymAppBackend.Infrastructure.Time;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +19,12 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddControllers();
+        services.AddSingleton<ExceptionMiddleware>();
 
         services
             .AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>()
+            .AddSingleton<IExerciseTypeRepository, InMemoryExerciseTypeRepository>()
+            .AddSingleton<IExerciseCategoryRepository, InMemoryExerciseCategoryRepository>()
             .AddSingleton<IClock, Clock>();
 
         services.AddSwaggerGen(swagger =>
@@ -41,6 +49,7 @@ public static class Extensions
 
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseSwagger();
         app.UseSwaggerUI();
         app.MapControllers();

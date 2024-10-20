@@ -14,7 +14,7 @@ internal sealed class InMemoryWorkoutRepository : IWorkoutRepository
         _workouts = new List<Workout>
         {
             Workout.Create(Guid.NewGuid(), new Date(clock.Current())),
-            Workout.Create(Guid.NewGuid(), new Date(clock.Current()))
+            Workout.Create(Guid.NewGuid(), new Date(clock.Current().AddDays(1)))
         };
     }
 
@@ -24,10 +24,16 @@ internal sealed class InMemoryWorkoutRepository : IWorkoutRepository
         return _workouts;
     }
 
-    public async Task<Workout> GetAsync(Guid id)
+    public async Task<Workout?> GetAsync(Guid id)
     {
         await Task.CompletedTask;
         return _workouts.SingleOrDefault(w => w.Id == id);
+    }
+
+    public async Task<Workout?> GetByDateAsync(Date date)
+    {
+        await Task.CompletedTask;
+        return _workouts.SingleOrDefault(w => w.Date == date);
     }
 
     public async Task AddAsync(Workout workout)
