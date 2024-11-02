@@ -16,9 +16,9 @@ public class InMemoryExerciseCategoryRepository : IExerciseCategoryRepository
         };
     }
 
-    public async Task<ExerciseCategory> GetAsync(Guid id)
+    public async Task<ExerciseCategory?> GetAsync(Guid id)
     {
         await Task.CompletedTask;
-        return _exerciseCategories.FirstOrDefault(exerciseCategory => exerciseCategory.Id == id);
+        return _exerciseCategories.SingleOrDefault(exerciseCategory => exerciseCategory.Id == id);
     }
 }

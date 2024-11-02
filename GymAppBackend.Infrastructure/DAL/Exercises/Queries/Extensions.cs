@@ -10,9 +10,10 @@ public static class Extensions
     {
         return new()
         {
+            Id = exercise.Id,
             ExerciseNumber = exercise.ExerciseNumber,
             ExerciseTypeName = exercise.ExerciseType.Name,
-            ExerciseSets = exercise.ExerciseSets.Select(exerciseSet => exerciseSet.AsDto()),
+            ExerciseSets = exercise.ExerciseSets.Select(exerciseSet => exerciseSet.AsDto()).OrderBy(exerciseSet => exerciseSet.SetNumber),
         };
     }
 }

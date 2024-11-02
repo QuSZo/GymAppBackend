@@ -2,22 +2,26 @@
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
 using GymAppBackend.Core.Workouts.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries.GetWorkouts;
 
-public sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnumerable<WorkoutsDto>>
+internal sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnumerable<WorkoutsDto>>
 {
-    private readonly IWorkoutRepository _repository;
+    private readonly GymAppDbContext _dbContext;
 
-    public GetWorkoutsHandler(IWorkoutRepository repository)
+    public GetWorkoutsHandler(GymAppDbContext dbContext)
     {
-        _repository = repository;
+        _dbContext = dbContext;
     }
 
     public async Task<IEnumerable<WorkoutsDto>> HandleAsync(GetWorkoutsQuery query)
     {
-        var workouts = await _repository.GetAllAsync();
+        var workouts = await _dbContext.Workouts
+            .AsNoTracking()
+            .Select(x => x.AsDto())
+            .ToListAsync();
 
-        return workouts.Select(x => x.AsDto());
+        return workouts;
     }
 }

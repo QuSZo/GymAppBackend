@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GymAppBackend.Application.Workouts.Commands.CreateWorkout;
 
-public class CreateWorkoutHandler : ICommandHandler<CreateWorkoutCommand, CreateOrUpdateResponse>
+internal sealed class CreateWorkoutHandler : ICommandHandler<CreateWorkoutCommand, CreateOrUpdateResponse>
 {
     private readonly IWorkoutRepository _workoutRepository;
     private readonly IExerciseTypeRepository _exerciseTypeRepository;
@@ -29,7 +29,7 @@ public class CreateWorkoutHandler : ICommandHandler<CreateWorkoutCommand, Create
         var isSameWorkoutDate = await _workoutRepository.GetByDateAsync(command.Date);
         if (isSameWorkoutDate != null)
         {
-            throw new WorkoutWithTheSameDateException(command.Date, StatusCodes.Status400BadRequest);
+            throw new WorkoutWithTheSameDateException(command.Date);
         }
 
         var workout = Workout.Create(command.Id, command.Date);
@@ -37,10 +37,10 @@ public class CreateWorkoutHandler : ICommandHandler<CreateWorkoutCommand, Create
         var exerciseType = await _exerciseTypeRepository.GetAsync(command.ExerciseTypeId);
         if (exerciseType == null)
         {
-            throw new ExerciseTypeDoesNotExistException(command.ExerciseTypeId, StatusCodes.Status400BadRequest);
+            throw new ExerciseTypeNotFoundException(command.ExerciseTypeId);
         }
 
-        var exercise = Exercise.Create(Guid.NewGuid(), 1, exerciseType);
+        var exercise = Exercise.Create(Guid.NewGuid(), 1, exerciseType, workout);
         workout.AddExercise(exercise);
 
         await _workoutRepository.AddAsync(workout);

@@ -10,5 +10,5 @@ public interface IWorkoutRepository
     Task<Workout?> GetByDateAsync(Date date);
     Task AddAsync(Workout workout);
     Task UpdateAsync(Workout workout);
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Workout workout);
 }

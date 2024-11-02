@@ -1,9 +1,12 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Core.Abstractions;
 using GymAppBackend.Core.ExerciseCategories.Repositories;
+using GymAppBackend.Core.Exercises.Repositories;
 using GymAppBackend.Core.ExerciseTypes.Repositories;
 using GymAppBackend.Core.Workouts.Repositories;
+using GymAppBackend.Infrastructure.DAL;
 using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
+using GymAppBackend.Infrastructure.DAL.Exercises.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using GymAppBackend.Infrastructure.Exceptions;
@@ -18,13 +21,28 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+        });
+
         services.AddControllers();
         services.AddSingleton<ExceptionMiddleware>();
 
         services
-            .AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>()
-            .AddSingleton<IExerciseTypeRepository, InMemoryExerciseTypeRepository>()
-            .AddSingleton<IExerciseCategoryRepository, InMemoryExerciseCategoryRepository>()
+            .AddPostgres()
+            // .AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>()
+            // .AddSingleton<IExerciseTypeRepository, InMemoryExerciseTypeRepository>()
+            // .AddSingleton<IExerciseCategoryRepository, InMemoryExerciseCategoryRepository>()
+            // .AddSingleton<IExerciseRepository, InMemoryExerciseRepository>()
             .AddSingleton<IClock, Clock>();
 
         services.AddSwaggerGen(swagger =>
@@ -50,6 +68,7 @@ public static class Extensions
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
         app.UseMiddleware<ExceptionMiddleware>();
+        app.UseCors();
         app.UseSwagger();
         app.UseSwaggerUI();
         app.MapControllers();

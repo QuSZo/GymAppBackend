@@ -11,7 +11,7 @@ public static class Extensions
         return new()
         {
             Id = workout.Id,
-            Date = workout.Date,
+            Date = workout.Date.Value,
         };
     }
 
@@ -20,8 +20,8 @@ public static class Extensions
         return new()
         {
             Id = workout.Id,
-            Date = workout.Date,
-            Exercises = workout.Exercises.Select(exercise => exercise.AsDto()),
+            Date = workout.Date.Value,
+            Exercises = workout.Exercises.Select(exercise => exercise.AsDto()).OrderBy(exercise => exercise.ExerciseNumber),
         };
     }
 }

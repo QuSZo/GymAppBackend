@@ -1,14 +1,13 @@
 ﻿using GymAppBackend.Core.Exceptions;
-using GymAppBackend.Core.ValueObjects;
+using Microsoft.AspNetCore.Http;
 
 namespace GymAppBackend.Core.Workouts.Exceptions;
 
 public sealed class WorkoutNotFoundException : CustomException
 {
-    public Date Date { get; set; }
-
-    public WorkoutNotFoundException(Date date, int statusCode) : base($"No workout found on {date.Value.Date}.", statusCode)
+    public Guid WorkoutId { get; }
+    public WorkoutNotFoundException(Guid workoutId) : base($"Workout with id {workoutId} does not exist.", StatusCodes.Status404NotFound)
     {
-        Date = date;
+        WorkoutId = workoutId;
     }
 }

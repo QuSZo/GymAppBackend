@@ -4,5 +4,5 @@ namespace GymAppBackend.Core.ExerciseCategories.Repositories;
 
 public interface IExerciseCategoryRepository
 {
-    Task<ExerciseCategory> GetAsync(Guid id);
+    Task<ExerciseCategory?> GetAsync(Guid id);
 }

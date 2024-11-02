@@ -17,4 +17,22 @@ public class InMemoryExerciseRepository : IExerciseRepository
         await Task.CompletedTask;
         return _exercises.Where(exercise => exercise.Workout.Id == id);
     }
+
+    public async Task<Exercise?> GetAsync(Guid id)
+    {
+        await Task.CompletedTask;
+        return _exercises.SingleOrDefault(exercise => exercise.Id == id);
+    }
+
+    public async Task AddAsync(Exercise exercise)
+    {
+        await Task.CompletedTask;
+        _exercises.Add(exercise);
+    }
+
+    public async Task DeleteAsync(Exercise exercise)
+    {
+        await Task.CompletedTask;
+        throw new NotImplementedException();
+    }
 }

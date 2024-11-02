@@ -5,7 +5,7 @@ namespace GymAppBackend.Core.ExerciseCategories.Entities;
 
 public class ExerciseCategory : Entity
 {
-    public string Name { get; set; }
+    public string Name { get; private set; }
     public IEnumerable<ExerciseType> ExerciseTypes => _exerciseTypes;
 
     private readonly List<ExerciseType> _exerciseTypes = new();

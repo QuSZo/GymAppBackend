@@ -5,15 +5,20 @@ namespace GymAppBackend.Core.ExerciseTypes.Entities;
 
 public class ExerciseType : Entity
 {
-    public string Name { get; set; }
-    public ExerciseCategory ExerciseCategory { get; set; }
+    public string Name { get; private set; }
+    public Guid ExerciseCategoryId { get; private set; }
+    public ExerciseCategory ExerciseCategory { get; private set; }
 
-    private ExerciseType(Guid id, string name, ExerciseCategory exerciseCategory)
+    public ExerciseType()
+    {
+    }
+
+    private ExerciseType(Guid id, string name, Guid exerciseCategoryId)
     {
         Id = id;
         Name = name;
-        ExerciseCategory = exerciseCategory;
+        ExerciseCategoryId = exerciseCategoryId;
     }
 
-    public static ExerciseType Create(Guid id, string name, ExerciseCategory exerciseCategory) => new(id, name, exerciseCategory);
+    public static ExerciseType Create(Guid id, string name, Guid exerciseCategoryId) => new(id, name, exerciseCategoryId);
 }

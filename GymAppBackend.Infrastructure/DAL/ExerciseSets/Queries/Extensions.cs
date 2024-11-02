@@ -9,6 +9,7 @@ public static class Extensions
     {
         return new()
         {
+            Id = exerciseSet.Id,
             Quantity = exerciseSet.Quantity,
             Reps = exerciseSet.Reps,
             SetNumber = exerciseSet.SetNumber,

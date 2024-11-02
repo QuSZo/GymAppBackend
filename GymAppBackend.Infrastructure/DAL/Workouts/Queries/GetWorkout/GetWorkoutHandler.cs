@@ -4,24 +4,32 @@ using GymAppBackend.Application.Workouts.Queries.GetWorkout;
 using GymAppBackend.Core.Workouts.Exceptions;
 using GymAppBackend.Core.Workouts.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries.GetWorkout;
 
-public sealed class GetWorkoutHandler : IQueryHandler<GetWorkoutQuery, WorkoutDetailsDto>
+internal sealed class GetWorkoutHandler : IQueryHandler<GetWorkoutQuery, WorkoutDetailsDto>
 {
-    private readonly IWorkoutRepository _workoutRepository;
+    private readonly GymAppDbContext _dbContext;
 
-    public GetWorkoutHandler(IWorkoutRepository workoutRepository)
+    public GetWorkoutHandler(GymAppDbContext dbContext)
     {
-        _workoutRepository = workoutRepository;
+        _dbContext = dbContext;
     }
 
     public async Task<WorkoutDetailsDto> HandleAsync(GetWorkoutQuery query)
     {
-        var workout = await _workoutRepository.GetByDateAsync(query.Date);
+        var workout = await _dbContext.Workouts
+            .AsNoTracking()
+            .Include(workout => workout.Exercises)
+                .ThenInclude(exercises => exercises.ExerciseType)
+            .Include(workout => workout.Exercises)
+                .ThenInclude(exercises => exercises.ExerciseSets)
+            .SingleOrDefaultAsync(workout => workout.Id == query.Id);
+
         if (workout == null)
         {
-            throw new WorkoutNotFoundException(query.Date, StatusCodes.Status404NotFound);
+            throw new WorkoutNotFoundException(query.Id);
         }
 
         return workout.AsDetailsDto();

@@ -47,10 +47,9 @@ internal sealed class InMemoryWorkoutRepository : IWorkoutRepository
         await Task.CompletedTask;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Workout workout)
     {
         await Task.CompletedTask;
-        var workout = _workouts.Single(w => w.Id == id);
         _workouts.Remove(workout);
     }
 }
