@@ -42,7 +42,7 @@ public class WorkoutsController : ControllerBase
     }
 
     [HttpGet("{date:datetime}")]
-    public async Task<ActionResult<WorkoutDetailsDto>> GetByDate([FromRoute] DateTimeOffset date)
+    public async Task<ActionResult<WorkoutDetailsDto>> GetByDate([FromRoute] DateTime date)
     {
         return await _getWorkoutByDateHandler.HandleAsync(new GetWorkoutByDateQuery{Date = date});
     }

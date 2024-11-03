@@ -18,7 +18,8 @@ internal sealed class GetWorkoutByDateHandler : IQueryHandler<GetWorkoutByDateQu
 
     public async Task<WorkoutDetailsDto> HandleAsync(GetWorkoutByDateQuery query)
     {
-        var dayStarted = new Date(new DateTimeOffset(query.Date.Year, query.Date.Month, query.Date.Day, 0, 0, 0, query.Date.Offset));
+        //var dayStarted = new Date(new DateTimeOffset(query.Date.Year, query.Date.Month, query.Date.Day, 0, 0, 0, query.Date.Offset));
+        var dayStarted = new Date(new DateTime(query.Date.Year, query.Date.Month, query.Date.Day, 0, 0, 0));
         var dayEnded = new Date(dayStarted).AddDays(1);
 
         var workout = await _dbContext.Workouts

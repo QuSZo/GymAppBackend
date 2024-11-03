@@ -5,7 +5,7 @@ using GymAppBackend.Core.ValueObjects;
 
 namespace GymAppBackend.Application.Workouts.Commands.CreateWorkout;
 
-public sealed record CreateWorkoutCommand(DateTimeOffset Date, Guid ExerciseTypeId) : ICommand<CreateOrUpdateResponse>
+public sealed record CreateWorkoutCommand(DateTime Date, Guid ExerciseTypeId) : ICommand<CreateOrUpdateResponse>
 {
     internal Guid Id { get; } = Guid.NewGuid();
 }
