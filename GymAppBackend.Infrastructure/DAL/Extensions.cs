@@ -2,11 +2,13 @@
 using GymAppBackend.Core.Exercises.Repositories;
 using GymAppBackend.Core.ExerciseSets.Repositories;
 using GymAppBackend.Core.ExerciseTypes.Repositories;
+using GymAppBackend.Core.Users.Repositories;
 using GymAppBackend.Core.Workouts.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
 using GymAppBackend.Infrastructure.DAL.Exercises.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseSets.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
+using GymAppBackend.Infrastructure.DAL.Users.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +27,8 @@ internal static class Extensions
             .AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>()
             .AddScoped<IExerciseCategoryRepository, ExerciseCategoryRepository>()
             .AddScoped<IExerciseRepository, ExerciseRepository>()
-            .AddScoped<IExerciseSetRepository, ExerciseSetRepository>();
+            .AddScoped<IExerciseSetRepository, ExerciseSetRepository>()
+            .AddScoped<IUserRepository, UserRepository>();
 
         services.AddHostedService<DatabaseInitializer>();
 

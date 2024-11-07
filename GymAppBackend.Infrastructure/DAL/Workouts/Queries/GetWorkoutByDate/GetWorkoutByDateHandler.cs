@@ -2,6 +2,7 @@
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkoutByDate;
 using GymAppBackend.Core.ValueObjects;
+using GymAppBackend.Core.ValueObjects.Date;
 using GymAppBackend.Core.Workouts.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,6 @@
 ﻿using GymAppBackend.Core.Abstractions;
 using GymAppBackend.Core.ValueObjects;
+using GymAppBackend.Core.ValueObjects.Date;
 using GymAppBackend.Core.Workouts.Entities;
 using GymAppBackend.Core.Workouts.Repositories;
 

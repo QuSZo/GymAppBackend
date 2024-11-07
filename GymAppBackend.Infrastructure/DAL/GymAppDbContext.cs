@@ -2,7 +2,9 @@
 using GymAppBackend.Core.Exercises.Entities;
 using GymAppBackend.Core.ExerciseSets.Entities;
 using GymAppBackend.Core.ExerciseTypes.Entities;
+using GymAppBackend.Core.Users.Entities;
 using GymAppBackend.Core.Workouts.Entities;
+using GymAppBackend.Infrastructure.DAL.Users.Configurations;
 using GymAppBackend.Infrastructure.DAL.Workouts.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,7 @@ internal sealed class GymAppDbContext : DbContext
     public DbSet<Workout> Workouts { get; set; }
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciseSet> ExerciseSets { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public GymAppDbContext(DbContextOptions<GymAppDbContext> options) : base(options)
     {
@@ -23,5 +26,6 @@ internal sealed class GymAppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new WorkoutConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 }

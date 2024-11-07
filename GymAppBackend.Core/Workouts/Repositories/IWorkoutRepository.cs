@@ -1,4 +1,5 @@
 ﻿using GymAppBackend.Core.ValueObjects;
+using GymAppBackend.Core.ValueObjects.Date;
 using GymAppBackend.Core.Workouts.Entities;
 
 namespace GymAppBackend.Core.Workouts.Repositories;

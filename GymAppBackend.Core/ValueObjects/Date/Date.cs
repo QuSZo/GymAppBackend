@@ -1,4 +1,4 @@
-﻿namespace GymAppBackend.Core.ValueObjects;
+﻿namespace GymAppBackend.Core.ValueObjects.Date;
 
 public sealed record Date
 {

@@ -2,16 +2,19 @@
 using GymAppBackend.Application.Responses;
 using GymAppBackend.Core.Exercises.Exceptions;
 using GymAppBackend.Core.Exercises.Repositories;
+using GymAppBackend.Core.Workouts.Repositories;
 
 namespace GymAppBackend.Application.Exercises.Commands.DeleteExercise;
 
 internal sealed class DeleteExerciseHandler : ICommandHandler<DeleteExerciseCommand, CreateOrUpdateResponse>
 {
     private readonly IExerciseRepository _exerciseRepository;
+    private readonly IWorkoutRepository _workoutRepository;
 
-    public DeleteExerciseHandler(IExerciseRepository exerciseRepository)
+    public DeleteExerciseHandler(IExerciseRepository exerciseRepository, IWorkoutRepository workoutRepository)
     {
         _exerciseRepository = exerciseRepository;
+        _workoutRepository = workoutRepository;
     }
 
     public async Task<CreateOrUpdateResponse> HandleAsync(DeleteExerciseCommand command)
@@ -22,7 +25,14 @@ internal sealed class DeleteExerciseHandler : ICommandHandler<DeleteExerciseComm
             throw new ExerciseNotFoundException(command.Id);
         }
 
-        await _exerciseRepository.DeleteAsync(exercise);
+        if (exercise.Workout.Exercises.Count() == 1)
+        {
+            await _workoutRepository.DeleteAsync(exercise.Workout);
+        }
+        else
+        {
+            await _exerciseRepository.DeleteAsync(exercise);
+        }
 
         return new CreateOrUpdateResponse(command.Id);
     }

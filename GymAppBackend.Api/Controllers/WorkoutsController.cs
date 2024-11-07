@@ -33,7 +33,9 @@ public class WorkoutsController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<WorkoutsDto>>> GetAll()
-        => Ok(await _getWorkoutsHandler.HandleAsync(new GetWorkoutsQuery()));
+    {
+        return Ok(await _getWorkoutsHandler.HandleAsync(new GetWorkoutsQuery()));
+    }
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<WorkoutDetailsDto>> GetById([FromRoute] Guid id)

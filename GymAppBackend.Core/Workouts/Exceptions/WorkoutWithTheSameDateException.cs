@@ -1,5 +1,6 @@
 ﻿using GymAppBackend.Core.Exceptions;
 using GymAppBackend.Core.ValueObjects;
+using GymAppBackend.Core.ValueObjects.Date;
 using Microsoft.AspNetCore.Http;
 
 namespace GymAppBackend.Core.Workouts.Exceptions;
