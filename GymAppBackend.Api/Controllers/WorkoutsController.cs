@@ -6,12 +6,14 @@ using GymAppBackend.Application.Workouts.Queries.GetWorkout;
 using GymAppBackend.Application.Workouts.Queries.GetWorkoutByDate;
 using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
 using GymAppBackend.Core.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymAppBackend.Api.Controllers;
 
 [ApiController]
 [Route("workouts")]
+[Authorize]
 public class WorkoutsController : ControllerBase
 {
     private readonly IQueryHandler<GetWorkoutsQuery, IEnumerable<WorkoutsDto>> _getWorkoutsHandler;

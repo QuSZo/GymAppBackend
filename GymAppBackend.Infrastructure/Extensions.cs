@@ -39,6 +39,7 @@ public static class Extensions
 
         services.AddControllers();
         services.AddSingleton<ExceptionMiddleware>();
+        services.AddHttpContextAccessor();
         services.AddSecurity();
         services.AddAuth(configuration);
 
@@ -74,6 +75,7 @@ public static class Extensions
     {
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseAuthentication();
+        app.UseAuthorization();
         app.UseCors();
         app.UseSwagger();
         app.UseSwaggerUI();

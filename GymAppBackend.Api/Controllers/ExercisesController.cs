@@ -3,12 +3,14 @@ using GymAppBackend.Application.Exercises.Commands.CreateExercise;
 using GymAppBackend.Application.Exercises.Commands.DeleteExercise;
 using GymAppBackend.Application.Exercises.Queries.DTO;
 using GymAppBackend.Application.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymAppBackend.Api.Controllers;
 
 [ApiController]
 [Route("exercises")]
+[Authorize]
 public class ExercisesController : ControllerBase
 {
     private readonly ICommandHandler<CreateExerciseCommand, CreateOrUpdateResponse> _createExerciseCommandHandler;

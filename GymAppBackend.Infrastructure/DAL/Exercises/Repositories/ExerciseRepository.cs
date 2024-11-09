@@ -18,6 +18,7 @@ internal sealed class ExerciseRepository : IExerciseRepository
         return await _dbContext.Exercises
             .Include(exercise => exercise.ExerciseType)
             .Include(exercise => exercise.Workout)
+                .ThenInclude(workout => workout.User)
             .Include(exercise => exercise.ExerciseSets)
             .Where(exercise => exercise.Workout.Id == id)
             .ToListAsync();
@@ -28,6 +29,7 @@ internal sealed class ExerciseRepository : IExerciseRepository
         return await _dbContext.Exercises
             .Include(exercise => exercise.ExerciseType)
             .Include(exercise => exercise.Workout)
+                .ThenInclude(workout => workout.User)
             .Include(exercise => exercise.ExerciseSets)
             .SingleOrDefaultAsync(exercise => exercise.Id == id);
     }

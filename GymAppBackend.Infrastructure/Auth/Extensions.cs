@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using GymAppBackend.Application.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ internal static class Extensions
         var authOptions = configuration.GetOptions<AuthOptions>(SectionName);
 
         services
+            .AddSingleton<IAuthenticator, Authenticator>()
             .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,6 +33,13 @@ internal static class Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.SigningKey)),
                 };
             });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("is-admin", policy => policy.RequireRole("admin"));
+        });
+
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }

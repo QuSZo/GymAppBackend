@@ -23,12 +23,12 @@ internal static class Extensions
         services.AddDbContext<GymAppDbContext>(options => options.UseNpgsql(connectionString));
 
         services
+            .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IWorkoutRepository, WorkoutRepository>()
             .AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>()
             .AddScoped<IExerciseCategoryRepository, ExerciseCategoryRepository>()
             .AddScoped<IExerciseRepository, ExerciseRepository>()
-            .AddScoped<IExerciseSetRepository, ExerciseSetRepository>()
-            .AddScoped<IUserRepository, UserRepository>();
+            .AddScoped<IExerciseSetRepository, ExerciseSetRepository>();
 
         services.AddHostedService<DatabaseInitializer>();
 

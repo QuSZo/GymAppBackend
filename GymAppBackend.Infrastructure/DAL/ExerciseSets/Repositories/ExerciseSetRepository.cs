@@ -15,7 +15,11 @@ internal sealed class ExerciseSetRepository : IExerciseSetRepository
 
     public async Task<ExerciseSet?> GetAsync(Guid id)
     {
-        return await _dbContext.ExerciseSets.SingleOrDefaultAsync(exerciseSet => exerciseSet.Id == id);
+        return await _dbContext.ExerciseSets
+            .Include(exerciseSet => exerciseSet.Exercise)
+                .ThenInclude(exercise => exercise.Workout)
+                    .ThenInclude(workout => workout.User)
+            .SingleOrDefaultAsync(exerciseSet => exerciseSet.Id == id);
     }
 
     public async Task AddAsync(ExerciseSet exerciseSet)

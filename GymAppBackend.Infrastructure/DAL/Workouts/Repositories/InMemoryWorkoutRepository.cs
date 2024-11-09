@@ -14,8 +14,8 @@ internal sealed class InMemoryWorkoutRepository : IWorkoutRepository
     {
         _workouts = new List<Workout>
         {
-            Workout.Create(Guid.NewGuid(), new Date(clock.Current())),
-            Workout.Create(Guid.NewGuid(), new Date(clock.Current().AddDays(1)))
+            //Workout.Create(Guid.NewGuid(), new Date(clock.Current())),
+            //Workout.Create(Guid.NewGuid(), new Date(clock.Current().AddDays(1)))
         };
     }
 

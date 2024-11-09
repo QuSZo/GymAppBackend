@@ -9,7 +9,7 @@ using GymAppBackend.Core.ValueObjects.Email;
 using GymAppBackend.Core.ValueObjects.Password;
 using GymAppBackend.Core.ValueObjects.Role;
 
-namespace GymAppBackend.Application.Users.Commands;
+namespace GymAppBackend.Application.Users.Commands.SignUp;
 
 internal sealed class SignUpHandler : ICommandHandler<SignUpCommand, CreateOrUpdateResponse>
 {
@@ -28,7 +28,7 @@ internal sealed class SignUpHandler : ICommandHandler<SignUpCommand, CreateOrUpd
     {
         var email = new Email(command.Email);
         var password = new Password(command.Password);
-        var role = new Role(command.Role);
+        var role = new Role("user");
 
         if (await _userRepository.GetByEmailAsync(email) != null)
         {

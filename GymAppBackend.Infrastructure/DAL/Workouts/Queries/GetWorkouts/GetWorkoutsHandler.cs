@@ -1,4 +1,5 @@
 ﻿using GymAppBackend.Application.Abstractions;
+using GymAppBackend.Application.Security;
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkouts;
 using GymAppBackend.Core.Workouts.Repositories;
@@ -9,6 +10,7 @@ namespace GymAppBackend.Infrastructure.DAL.Workouts.Queries.GetWorkouts;
 internal sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnumerable<WorkoutsDto>>
 {
     private readonly GymAppDbContext _dbContext;
+    private readonly ICurrentUserService _currentUserService;
 
     public GetWorkoutsHandler(GymAppDbContext dbContext)
     {
@@ -19,7 +21,9 @@ internal sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnum
     {
         var workouts = await _dbContext.Workouts
             .AsNoTracking()
-            .Select(x => x.AsDto())
+            .Include(workout => workout.User)
+            .Where(workout => workout.User.Id == _currentUserService.UserId)
+            .Select(workout => workout.AsDto())
             .ToListAsync();
 
         return workouts;

@@ -5,12 +5,14 @@ using GymAppBackend.Application.ExerciseSets.Commands.DeleteExerciseSet;
 using GymAppBackend.Application.ExerciseSets.Commands.UpdateExerciseSet;
 using GymAppBackend.Application.ExerciseSets.Queries.DTO;
 using GymAppBackend.Application.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymAppBackend.Api.Controllers;
 
 [ApiController]
 [Route("exercise-sets")]
+[Authorize]
 public class ExerciseSetsController : ControllerBase
 {
     private readonly ICommandHandler<CreateExerciseSetCommand, CreateOrUpdateResponse> _createExerciseSetHandler;
