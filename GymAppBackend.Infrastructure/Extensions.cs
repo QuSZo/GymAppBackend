@@ -74,9 +74,9 @@ public static class Extensions
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
         app.UseMiddleware<ExceptionMiddleware>();
+        app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors();
         app.UseSwagger();
         app.UseSwaggerUI();
         app.MapControllers();

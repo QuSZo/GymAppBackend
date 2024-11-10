@@ -12,9 +12,10 @@ internal sealed class GetWorkoutsHandler : IQueryHandler<GetWorkoutsQuery, IEnum
     private readonly GymAppDbContext _dbContext;
     private readonly ICurrentUserService _currentUserService;
 
-    public GetWorkoutsHandler(GymAppDbContext dbContext)
+    public GetWorkoutsHandler(GymAppDbContext dbContext, ICurrentUserService currentUserService)
     {
         _dbContext = dbContext;
+        _currentUserService = currentUserService;
     }
 
     public async Task<IEnumerable<WorkoutsDto>> HandleAsync(GetWorkoutsQuery query)
