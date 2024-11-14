@@ -4,5 +4,6 @@ namespace GymAppBackend.Application.Security;
 
 public interface IPasswordResetTokenManager
 {
-    Task<string> GeneratePasswordResetToken(User user);
+    Task<string> GeneratePasswordResetTokenAsync(User user);
+    string HashToken(string passwordResetToken);
 }

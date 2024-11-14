@@ -12,7 +12,7 @@ internal static class Extensions
         services
             .AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>()
             .AddSingleton<IPasswordManager, PasswordManager>()
-            .AddSingleton<IPasswordResetTokenManager, PasswordResetTokenManager>();
+            .AddScoped<IPasswordResetTokenManager, PasswordResetTokenManager>();
 
         return services;
     }

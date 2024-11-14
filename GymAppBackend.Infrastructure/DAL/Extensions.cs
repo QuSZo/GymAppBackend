@@ -2,12 +2,14 @@
 using GymAppBackend.Core.Exercises.Repositories;
 using GymAppBackend.Core.ExerciseSets.Repositories;
 using GymAppBackend.Core.ExerciseTypes.Repositories;
+using GymAppBackend.Core.PasswordResetTokens.Repositories;
 using GymAppBackend.Core.Users.Repositories;
 using GymAppBackend.Core.Workouts.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
 using GymAppBackend.Infrastructure.DAL.Exercises.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseSets.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
+using GymAppBackend.Infrastructure.DAL.PasswordResetTokens.Repositories;
 using GymAppBackend.Infrastructure.DAL.Users.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,7 @@ internal static class Extensions
 
         services
             .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>()
             .AddScoped<IWorkoutRepository, WorkoutRepository>()
             .AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>()
             .AddScoped<IExerciseCategoryRepository, ExerciseCategoryRepository>()

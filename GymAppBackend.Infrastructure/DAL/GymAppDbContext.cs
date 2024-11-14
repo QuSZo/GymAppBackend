@@ -2,6 +2,7 @@
 using GymAppBackend.Core.Exercises.Entities;
 using GymAppBackend.Core.ExerciseSets.Entities;
 using GymAppBackend.Core.ExerciseTypes.Entities;
+using GymAppBackend.Core.PasswordResetTokens.Entities;
 using GymAppBackend.Core.Users.Entities;
 using GymAppBackend.Core.Workouts.Entities;
 using GymAppBackend.Infrastructure.DAL.Users.Configurations;
@@ -18,6 +19,7 @@ internal sealed class GymAppDbContext : DbContext
     public DbSet<Exercise> Exercises { get; set; }
     public DbSet<ExerciseSet> ExerciseSets { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
 
     public GymAppDbContext(DbContextOptions<GymAppDbContext> options) : base(options)
     {

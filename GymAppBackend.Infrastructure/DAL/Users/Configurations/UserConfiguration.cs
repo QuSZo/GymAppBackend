@@ -18,11 +18,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(x => x.Password)
-            .HasConversion(x => x.Value, x => new Password(x))
-            .IsRequired()
-            .HasMaxLength(200);
-
         builder.Property(x => x.Role)
             .HasConversion(x => x.Value, x => new Role(x))
             .IsRequired()

@@ -1,9 +1,9 @@
-﻿using System.Text;
+﻿using System.Security.Authentication;
 using GymAppBackend.Application.Abstractions;
-using GymAppBackend.Application.Emails;
-using GymAppBackend.Application.Responses;
 using GymAppBackend.Application.Security;
-using GymAppBackend.Core.Users.Exceptions;
+using GymAppBackend.Core.Abstractions;
+using GymAppBackend.Core.PasswordResetTokens.Repositories;
+using GymAppBackend.Core.Users.Entities;
 using GymAppBackend.Core.Users.Repositories;
 using GymAppBackend.Core.ValueObjects.Password;
 
@@ -12,14 +12,21 @@ namespace GymAppBackend.Application.Users.Commands.ResetPassword;
 internal sealed class ResetPasswordHandler : ICommandHandler<ResetPasswordCommand>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IEmailClient _emailClient;
+    private readonly IPasswordResetTokenManager _passwordResetTokenManager;
+    private readonly IPasswordResetTokenRepository _passwordResetTokenRepository;
     private readonly IPasswordManager _passwordManager;
-    private static readonly Random _random = new Random();
+    private readonly IClock _clock;
 
-    public ResetPasswordHandler(IUserRepository userRepository, IEmailClient emailClient, IPasswordManager passwordManager)
+    public ResetPasswordHandler(
+        IUserRepository userRepository,
+        IPasswordResetTokenManager passwordResetTokenManager,
+        IPasswordResetTokenRepository passwordResetTokenRepository,
+        IClock clock, IPasswordManager passwordManager)
     {
         _userRepository = userRepository;
-        _emailClient = emailClient;
+        _passwordResetTokenManager = passwordResetTokenManager;
+        _passwordResetTokenRepository = passwordResetTokenRepository;
+        _clock = clock;
         _passwordManager = passwordManager;
     }
 
@@ -28,34 +35,22 @@ internal sealed class ResetPasswordHandler : ICommandHandler<ResetPasswordComman
         var user = await _userRepository.GetByEmailAsync(command.Email);
         if (user == null)
         {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialException();
         }
 
-        var password = new Password(GenerateRandomPassword());
-        var securedPassword = _passwordManager.Secure(password);
+        var hashedToken = _passwordResetTokenManager.HashToken(command.Token);
+        var passwordResetToken = await _passwordResetTokenRepository.GetByTokenAsync(hashedToken);
 
+        if (passwordResetToken == null ||
+            passwordResetToken.User.Id != user.Id ||
+            passwordResetToken.Expires < _clock.Current())
+        {
+            throw new InvalidCredentialException();
+        }
+
+        var password = new Password(command.Password);
+        var securedPassword = _passwordManager.Secure(password);
         user.ResetPassword(securedPassword);
         await _userRepository.UpdateAsync(user);
-
-        await _emailClient.SendEmailAsync(user.Email, "Reset Password", $"This is your new password: {password}");
-    }
-
-    private string GenerateRandomPassword()
-    {
-        const string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const string digits = "0123456789";
-        const string allChars = letters + digits;
-
-        var password = new StringBuilder();
-
-        password.Append(letters[_random.Next(letters.Length)]);
-        password.Append(digits[_random.Next(digits.Length)]);
-
-        for (int i = 2; i < 8; i++)
-        {
-            password.Append(allChars[_random.Next(allChars.Length)]);
-        }
-
-        return new string(password.ToString().OrderBy(_ => _random.Next()).ToArray());
     }
 }

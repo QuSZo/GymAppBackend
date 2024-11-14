@@ -8,7 +8,7 @@ namespace GymAppBackend.Core.Users.Entities;
 public class User : Entity
 {
     public Email Email { get; private set; }
-    public Password Password { get; private set; }
+    public string Password { get; private set; }
     public Role Role { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
@@ -16,7 +16,7 @@ public class User : Entity
     {
     }
 
-    private User(Guid id, Email email, Password password, Role role, DateTime createdAt)
+    private User(Guid id, Email email, string password, Role role, DateTime createdAt)
     {
         Id = id;
         Email = email;
@@ -25,10 +25,10 @@ public class User : Entity
         CreatedAt = createdAt;
     }
 
-    public static User Create(Guid id, Email email, Password password, Role role, DateTime createdAt)
+    public static User Create(Guid id, Email email, string password, Role role, DateTime createdAt)
     => new(id, email, password, role, createdAt);
 
-    public void ResetPassword(Password newPassword)
+    public void ResetPassword(string newPassword)
     {
         Password = newPassword;
     }
