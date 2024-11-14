@@ -16,7 +16,7 @@ public class User : Entity
     {
     }
 
-    private User(Guid id, string email, string password, string role, DateTime createdAt)
+    private User(Guid id, Email email, Password password, Role role, DateTime createdAt)
     {
         Id = id;
         Email = email;
@@ -25,6 +25,11 @@ public class User : Entity
         CreatedAt = createdAt;
     }
 
-    public static User Create(Guid id, string email, string password, string role, DateTime createdAt)
+    public static User Create(Guid id, Email email, Password password, Role role, DateTime createdAt)
     => new(id, email, password, role, createdAt);
+
+    public void ResetPassword(Password newPassword)
+    {
+        Password = newPassword;
+    }
 }

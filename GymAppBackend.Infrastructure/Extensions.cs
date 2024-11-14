@@ -10,6 +10,7 @@ using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
 using GymAppBackend.Infrastructure.DAL.Exercises.Repositories;
 using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
+using GymAppBackend.Infrastructure.Emails;
 using GymAppBackend.Infrastructure.Exceptions;
 using GymAppBackend.Infrastructure.Security;
 using GymAppBackend.Infrastructure.Time;
@@ -42,6 +43,7 @@ public static class Extensions
         services.AddHttpContextAccessor();
         services.AddSecurity();
         services.AddAuth(configuration);
+        services.AddSendGrid(configuration);
 
         services
             .AddPostgres()

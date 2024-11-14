@@ -8,7 +8,7 @@ public sealed record Password
 
     public Password(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length is > 200 or < 6)
+        if (string.IsNullOrWhiteSpace(value) || value.Length is > 200 or < 8)
         {
             throw new InvalidPasswordException();
         }

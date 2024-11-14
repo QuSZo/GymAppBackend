@@ -3,6 +3,7 @@ using GymAppBackend.Application.Responses;
 using GymAppBackend.Application.Security;
 using GymAppBackend.Application.Security.DTO;
 using GymAppBackend.Application.Users.Commands;
+using GymAppBackend.Application.Users.Commands.ResetPassword;
 using GymAppBackend.Application.Users.Commands.SignIn;
 using GymAppBackend.Application.Users.Commands.SignUp;
 using GymAppBackend.Application.Users.Queries.DTO;
@@ -21,17 +22,20 @@ public class UsersController : ControllerBase
     private readonly IQueryHandler<GetUserQuery, UserDto> _getUserHandler;
     private readonly IQueryHandler<GetUsersQuery, IEnumerable<UserDto>> _getUsersHandler;
     private readonly ICommandHandler<SignInCommand, JwtDto> _signInHandler;
+    private readonly ICommandHandler<ResetPasswordCommand> _resetPasswordHandler;
 
     public UsersController(
         ICommandHandler<SignUpCommand, CreateOrUpdateResponse> signUpHandler,
         IQueryHandler<GetUserQuery, UserDto> getUserHandler,
         IQueryHandler<GetUsersQuery, IEnumerable<UserDto>> getUsersHandler,
-        ICommandHandler<SignInCommand, JwtDto> signInHandler)
+        ICommandHandler<SignInCommand, JwtDto> signInHandler,
+        ICommandHandler<ResetPasswordCommand> resetPasswordHandler)
     {
         _signUpHandler = signUpHandler;
         _getUserHandler = getUserHandler;
         _getUsersHandler = getUsersHandler;
         _signInHandler = signInHandler;
+        _resetPasswordHandler = resetPasswordHandler;
     }
 
     [HttpPost("sign-up")]
@@ -46,6 +50,13 @@ public class UsersController : ControllerBase
     {
         var response = await _signInHandler.HandleAsync(command);
         return Ok(response);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<ActionResult> Post([FromBody] ResetPasswordCommand command)
+    {
+        await _resetPasswordHandler.HandleAsync(command);
+        return Ok();
     }
 
     [Authorize]
