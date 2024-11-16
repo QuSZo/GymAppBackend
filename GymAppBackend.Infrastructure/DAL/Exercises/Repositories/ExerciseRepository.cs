@@ -21,6 +21,7 @@ internal sealed class ExerciseRepository : IExerciseRepository
                 .ThenInclude(workout => workout.User)
             .Include(exercise => exercise.ExerciseSets)
             .Where(exercise => exercise.Workout.Id == id)
+            .OrderBy(exercise => exercise.ExerciseNumber)
             .ToListAsync();
     }
 

@@ -34,4 +34,9 @@ public class Exercise : Entity
     {
         _exerciseSets.Add(exerciseSet);
     }
+
+    public void UpdateExerciseNumber(int exerciseNumber)
+    {
+        ExerciseNumber = exerciseNumber;
+    }
 }

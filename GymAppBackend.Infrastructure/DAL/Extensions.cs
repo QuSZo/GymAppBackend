@@ -13,16 +13,20 @@ using GymAppBackend.Infrastructure.DAL.PasswordResetTokens.Repositories;
 using GymAppBackend.Infrastructure.DAL.Users.Repositories;
 using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GymAppBackend.Infrastructure.DAL;
 
 internal static class Extensions
 {
-    public static IServiceCollection AddPostgres(this IServiceCollection services)
+    private const string OptionsSectionName = "postgres";
+
+    public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
-        const string connectionString = "Host=localhost;Database=GymApp;Username=postgres;Password=admin;";
-        services.AddDbContext<GymAppDbContext>(options => options.UseNpgsql(connectionString));
+        services.Configure<PostgresOptions>(configuration.GetRequiredSection(OptionsSectionName));
+        var postgresOptions = configuration.GetOptions<PostgresOptions>(OptionsSectionName);
+        services.AddDbContext<GymAppDbContext>(options => options.UseNpgsql(postgresOptions.ConnectionString));
 
         services
             .AddScoped<IUserRepository, UserRepository>()

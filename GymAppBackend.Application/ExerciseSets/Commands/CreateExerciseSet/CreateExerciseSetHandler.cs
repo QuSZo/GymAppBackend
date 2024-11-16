@@ -34,7 +34,8 @@ internal sealed class CreateExerciseSetHandler : ICommandHandler<CreateExerciseS
             throw new ExerciseNotFoundException(command.ExerciseId);
         }
 
-        var exerciseSetNumber = exercise.ExerciseSets.Count() + 1;
+        var exerciseSetsOrderByNumber = exercise.ExerciseSets.OrderBy(exerciseSet => exerciseSet.SetNumber);
+        var exerciseSetNumber = exerciseSetsOrderByNumber.LastOrDefault() != null ? exerciseSetsOrderByNumber.Last().SetNumber + 1 : 1;
         var exerciseSet = ExerciseSet.Create(command.Id, exerciseSetNumber, command.Quantity, command.Reps, exercise);
         await _exerciseSetRepository.AddAsync(exerciseSet);
 

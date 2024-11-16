@@ -46,7 +46,7 @@ public static class Extensions
         services.AddSendGrid(configuration);
 
         services
-            .AddPostgres()
+            .AddPostgres(configuration)
             // .AddSingleton<IWorkoutRepository, InMemoryWorkoutRepository>()
             // .AddSingleton<IExerciseTypeRepository, InMemoryExerciseTypeRepository>()
             // .AddSingleton<IExerciseCategoryRepository, InMemoryExerciseCategoryRepository>()

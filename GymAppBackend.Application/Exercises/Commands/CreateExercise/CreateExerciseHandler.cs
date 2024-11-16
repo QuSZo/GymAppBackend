@@ -48,8 +48,8 @@ internal sealed class CreateExerciseHandler : ICommandHandler<CreateExerciseComm
             throw new ExerciseTypeNotFoundException(command.exerciseTypeId);
         }
 
-        var exerciseInWorkouts = await _exerciseRepository.GetAllByWorkoutIdAsync(command.workoutId);
-        var nextExerciseNumber = exerciseInWorkouts.Count() + 1;
+        var exercisesInWorkout = await _exerciseRepository.GetAllByWorkoutIdAsync(command.workoutId);
+        var nextExerciseNumber = exercisesInWorkout.LastOrDefault() != null ? exercisesInWorkout.Last().ExerciseNumber + 1 : 1;
         var exercise = Exercise.Create(command.Id, nextExerciseNumber, exerciseType, workout);
 
         await _exerciseRepository.AddAsync(exercise);

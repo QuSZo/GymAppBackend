@@ -33,7 +33,8 @@ internal sealed class DeleteExerciseHandler : ICommandHandler<DeleteExerciseComm
             throw new ExerciseNotFoundException(command.Id);
         }
 
-        if (exercise.Workout.Exercises.Count() == 1)
+        var exercises = await _exerciseRepository.GetAllByWorkoutIdAsync(exercise.Workout.Id);
+        if (exercises.Count() == 1)
         {
             await _workoutRepository.DeleteAsync(exercise.Workout);
         }
