@@ -1,6 +1,7 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Application.Exercises.Commands.CreateExercise;
 using GymAppBackend.Application.Exercises.Commands.DeleteExercise;
+using GymAppBackend.Application.Exercises.Commands.UpdateExerciseNumber;
 using GymAppBackend.Application.Exercises.Queries.DTO;
 using GymAppBackend.Application.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -13,14 +14,18 @@ namespace GymAppBackend.Api.Controllers;
 [Authorize]
 public class ExercisesController : ControllerBase
 {
-    private readonly ICommandHandler<CreateExerciseCommand, CreateOrUpdateResponse> _createExerciseCommandHandler;
-    private readonly ICommandHandler<DeleteExerciseCommand, CreateOrUpdateResponse> _deleteExerciseCommandHandler;
+    private readonly ICommandHandler<CreateExerciseCommand, CreateOrUpdateResponse> _createExerciseHandler;
+    private readonly ICommandHandler<DeleteExerciseCommand, CreateOrUpdateResponse> _deleteExerciseHandler;
+    private readonly ICommandHandler<UpdateExerciseNumberCommand, CreateOrUpdateResponse> _updateExerciseNumberHandler;
 
     public ExercisesController(
-        ICommandHandler<CreateExerciseCommand, CreateOrUpdateResponse> createExerciseCommandHandler, ICommandHandler<DeleteExerciseCommand, CreateOrUpdateResponse> deleteExerciseCommandHandler)
+        ICommandHandler<CreateExerciseCommand, CreateOrUpdateResponse> createExerciseHandler,
+        ICommandHandler<DeleteExerciseCommand, CreateOrUpdateResponse> deleteExerciseHandler,
+        ICommandHandler<UpdateExerciseNumberCommand, CreateOrUpdateResponse> updateExerciseNumberHandler)
     {
-        _createExerciseCommandHandler = createExerciseCommandHandler;
-        _deleteExerciseCommandHandler = deleteExerciseCommandHandler;
+        _createExerciseHandler = createExerciseHandler;
+        _deleteExerciseHandler = deleteExerciseHandler;
+        _updateExerciseNumberHandler = updateExerciseNumberHandler;
     }
 
     [HttpGet("{id:guid}")]
@@ -33,14 +38,21 @@ public class ExercisesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<CreateOrUpdateResponse>> Post([FromBody] CreateExerciseCommand command)
     {
-        var resposne = await _createExerciseCommandHandler.HandleAsync(command);
+        var resposne = await _createExerciseHandler.HandleAsync(command);
         return CreatedAtAction(nameof(GetById), new { id = resposne.Id }, resposne.Id);
+    }
+
+    [HttpPut("{id:guid}/exercise-number")]
+    public async Task<ActionResult<CreateOrUpdateResponse>> Put([FromRoute] Guid id, [FromBody] UpdateExerciseNumberCommand command)
+    {
+        var response = await _updateExerciseNumberHandler.HandleAsync(command with { Id = id });
+        return Ok(response);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        await _deleteExerciseCommandHandler.HandleAsync(new DeleteExerciseCommand(id));
+        await _deleteExerciseHandler.HandleAsync(new DeleteExerciseCommand(id));
         return Ok();
     }
 }

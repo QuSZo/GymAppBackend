@@ -30,6 +30,11 @@ public class InMemoryExerciseRepository : IExerciseRepository
         _exercises.Add(exercise);
     }
 
+    public Task UpdateRangeAsync(IEnumerable<Exercise> exercises)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task DeleteAsync(Exercise exercise)
     {
         await Task.CompletedTask;

@@ -1,6 +1,7 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Application.Responses;
 using GymAppBackend.Application.Security;
+using GymAppBackend.Core.Exercises.Entities;
 using GymAppBackend.Core.Exercises.Exceptions;
 using GymAppBackend.Core.Exercises.Repositories;
 
@@ -30,7 +31,7 @@ internal sealed class UpdateExerciseNumberHandler : ICommandHandler<UpdateExerci
             throw new ExerciseNotFoundException(command.Id);
         }
 
-        var exercises = await _exerciseRepository.GetAllByWorkoutIdAsync(exercise.Id);
+        var exercises = await _exerciseRepository.GetAllByWorkoutIdAsync(exercise.Workout.Id);
         var exercisesList = exercises.ToList();
         var currentIndex = exercisesList.FindIndex(e => e.Id == exercise.Id);
         if (currentIndex == -1)
@@ -55,8 +56,7 @@ internal sealed class UpdateExerciseNumberHandler : ICommandHandler<UpdateExerci
         exerciseToChange.UpdateExerciseNumber(exercise.ExerciseNumber);
         exercise.UpdateExerciseNumber(tempExerciseNumber);
 
-        _exerciseRepository.Update(exercise);
-        _exerciseRepository.Update(exerciseToChange);
+        await _exerciseRepository.UpdateRangeAsync(new List<Exercise> { exercise, exerciseToChange });
 
         return new CreateOrUpdateResponse(command.Id);
     }

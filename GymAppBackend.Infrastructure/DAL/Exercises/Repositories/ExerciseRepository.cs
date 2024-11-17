@@ -41,6 +41,12 @@ internal sealed class ExerciseRepository : IExerciseRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task UpdateRangeAsync(IEnumerable<Exercise> exercises)
+    {
+        _dbContext.Exercises.UpdateRange(exercises);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task DeleteAsync(Exercise exercise)
     {
         _dbContext.Exercises.Remove(exercise);
