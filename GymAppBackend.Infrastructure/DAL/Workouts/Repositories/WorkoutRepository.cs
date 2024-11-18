@@ -31,12 +31,12 @@ internal sealed class WorkoutRepository : IWorkoutRepository
             .SingleOrDefaultAsync(workout => workout.Id == id);
     }
 
-    public async Task<Workout?> GetByDateAsync(Date date)
+    public async Task<Workout?> GetByDateForUserAsync(Date date, Guid userId)
     {
         return await _dbContext.Workouts
             .Include(workout => workout.Exercises)
             .Include(workout => workout.User)
-            .SingleOrDefaultAsync(workout => workout.Date == date);
+            .SingleOrDefaultAsync(workout => workout.Date == date && workout.User.Id == userId);
     }
 
     public async Task AddAsync(Workout workout)

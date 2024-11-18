@@ -12,7 +12,7 @@ public static class Extensions
         {
             Id = exercise.Id,
             ExerciseNumber = exercise.ExerciseNumber,
-            ExerciseTypeName = exercise.ExerciseType.Name,
+            ExerciseTypeName = $"{exercise.ExerciseType.ExerciseCategory.Name} - {exercise.ExerciseType.Name}",
             ExerciseSets = exercise.ExerciseSets.Select(exerciseSet => exerciseSet.AsDto()).OrderBy(exerciseSet => exerciseSet.SetNumber),
         };
     }

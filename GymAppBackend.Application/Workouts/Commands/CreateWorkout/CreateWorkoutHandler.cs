@@ -41,7 +41,7 @@ internal sealed class CreateWorkoutHandler : ICommandHandler<CreateWorkoutComman
             throw new UserNotFoundException(_currentUserService.UserId);
         }
 
-        var isSameWorkoutDate = await _workoutRepository.GetByDateAsync(command.Date);
+        var isSameWorkoutDate = await _workoutRepository.GetByDateForUserAsync(command.Date, user.Id);
         if (isSameWorkoutDate != null)
         {
             throw new WorkoutWithTheSameDateException(command.Date);

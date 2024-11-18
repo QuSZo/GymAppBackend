@@ -29,9 +29,10 @@ internal sealed class GetWorkoutByDateHandler : IQueryHandler<GetWorkoutByDateQu
             .AsNoTracking()
             .Include(workout => workout.User)
             .Include(workout => workout.Exercises)
-            .ThenInclude(exercises => exercises.ExerciseType)
+                .ThenInclude(exercises => exercises.ExerciseType)
+                    .ThenInclude(exerciseType => exerciseType.ExerciseCategory)
             .Include(workout => workout.Exercises)
-            .ThenInclude(exercises => exercises.ExerciseSets)
+                .ThenInclude(exercises => exercises.ExerciseSets)
             .SingleOrDefaultAsync(workout => workout.Date >= dayStarted && workout.Date < dayEnded && workout.User.Id == _currentUserService.UserId);
 
         if (workout == null)

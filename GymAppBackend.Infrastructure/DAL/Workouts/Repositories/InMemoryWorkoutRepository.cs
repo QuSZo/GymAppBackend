@@ -31,7 +31,7 @@ internal sealed class InMemoryWorkoutRepository : IWorkoutRepository
         return _workouts.SingleOrDefault(w => w.Id == id);
     }
 
-    public async Task<Workout?> GetByDateAsync(Date date)
+    public async Task<Workout?> GetByDateForUserAsync(Date date, Guid userId)
     {
         await Task.CompletedTask;
         return _workouts.SingleOrDefault(w => w.Date == date);

@@ -8,7 +8,7 @@ public interface IWorkoutRepository
 {
     Task<IEnumerable<Workout>> GetAllAsync();
     Task<Workout?> GetAsync(Guid id);
-    Task<Workout?> GetByDateAsync(Date date);
+    Task<Workout?> GetByDateForUserAsync(Date date, Guid userId);
     Task AddAsync(Workout workout);
     Task UpdateAsync(Workout workout);
     Task DeleteAsync(Workout workout);
