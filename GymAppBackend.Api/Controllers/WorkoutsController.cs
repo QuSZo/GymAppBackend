@@ -1,5 +1,6 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Application.Responses;
+using GymAppBackend.Application.Workouts.Commands.CopyWorkout;
 using GymAppBackend.Application.Workouts.Commands.CreateWorkout;
 using GymAppBackend.Application.Workouts.Queries.DTO;
 using GymAppBackend.Application.Workouts.Queries.GetWorkout;
@@ -20,17 +21,20 @@ public class WorkoutsController : ControllerBase
     private readonly IQueryHandler<GetWorkoutQuery, WorkoutDetailsDto> _getWorkoutHandler;
     private readonly IQueryHandler<GetWorkoutByDateQuery, WorkoutDetailsDto> _getWorkoutByDateHandler;
     private readonly ICommandHandler<CreateWorkoutCommand, CreateOrUpdateResponse> _createWorkoutHandler;
+    private readonly ICommandHandler<CopyWorkoutCommand, CreateOrUpdateResponse> _copyWorkoutHandler;
 
     public WorkoutsController(
         IQueryHandler<GetWorkoutsQuery, IEnumerable<WorkoutsDto>> getWorkoutsHandler,
         IQueryHandler<GetWorkoutQuery, WorkoutDetailsDto> getWorkoutHandler,
         ICommandHandler<CreateWorkoutCommand, CreateOrUpdateResponse> createWorkoutHandler,
-        IQueryHandler<GetWorkoutByDateQuery, WorkoutDetailsDto> getWorkoutByDateHandler)
+        IQueryHandler<GetWorkoutByDateQuery, WorkoutDetailsDto> getWorkoutByDateHandler,
+        ICommandHandler<CopyWorkoutCommand, CreateOrUpdateResponse> copyWorkoutHandler)
     {
         _getWorkoutsHandler = getWorkoutsHandler;
         _getWorkoutHandler = getWorkoutHandler;
         _createWorkoutHandler = createWorkoutHandler;
         _getWorkoutByDateHandler = getWorkoutByDateHandler;
+        _copyWorkoutHandler = copyWorkoutHandler;
     }
 
     [HttpGet]
@@ -55,6 +59,13 @@ public class WorkoutsController : ControllerBase
     public async Task<ActionResult<CreateOrUpdateResponse>> Post([FromBody] CreateWorkoutCommand command)
     {
         var response = await _createWorkoutHandler.HandleAsync(command);
+        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response.Id);
+    }
+
+    [HttpPost("copy")]
+    public async Task<ActionResult<CreateOrUpdateResponse>> Post([FromBody] CopyWorkoutCommand command)
+    {
+        var response = await _copyWorkoutHandler.HandleAsync(command);
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response.Id);
     }
 }

@@ -35,6 +35,9 @@ internal sealed class WorkoutRepository : IWorkoutRepository
     {
         return await _dbContext.Workouts
             .Include(workout => workout.Exercises)
+                .ThenInclude(exercise => exercise.ExerciseType)
+            .Include(workout => workout.Exercises)
+                .ThenInclude(exercise => exercise.ExerciseSets)
             .Include(workout => workout.User)
             .SingleOrDefaultAsync(workout => workout.Date == date && workout.User.Id == userId);
     }
