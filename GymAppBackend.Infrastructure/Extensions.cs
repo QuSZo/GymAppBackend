@@ -1,15 +1,8 @@
 ﻿using GymAppBackend.Application.Abstractions;
 using GymAppBackend.Core.Abstractions;
-using GymAppBackend.Core.ExerciseCategories.Repositories;
-using GymAppBackend.Core.Exercises.Repositories;
-using GymAppBackend.Core.ExerciseTypes.Repositories;
-using GymAppBackend.Core.Workouts.Repositories;
 using GymAppBackend.Infrastructure.Auth;
+using GymAppBackend.Infrastructure.CorsPolicy;
 using GymAppBackend.Infrastructure.DAL;
-using GymAppBackend.Infrastructure.DAL.ExerciseCategories.Repositories;
-using GymAppBackend.Infrastructure.DAL.Exercises.Repositories;
-using GymAppBackend.Infrastructure.DAL.ExerciseTypes.Repositories;
-using GymAppBackend.Infrastructure.DAL.Workouts.Repositories;
 using GymAppBackend.Infrastructure.Emails;
 using GymAppBackend.Infrastructure.Exceptions;
 using GymAppBackend.Infrastructure.Security;
@@ -25,19 +18,7 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(
-                policy =>
-                {
-                    policy
-                        .WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-        });
-
+        services.AddCorsPolicy(configuration);
         services.AddControllers();
         services.AddSingleton<ExceptionMiddleware>();
         services.AddHttpContextAccessor();
